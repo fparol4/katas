@@ -32,25 +32,33 @@ class CalculatePI {
         return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2))
     }
 
-    static generatePolar() {
+    static generatePolar(calculatedPolars) {
         const random = () => Number(Math.random().toFixed(2))
-        const polar = [random(), random()]
-        return polar
+        while (true) {
+            const polar = [random(), random()]
+            const foundInCalculatedPolars = calculatedPolars
+                .every(cordinates => cordinates
+                    .every(cordinate => polar.includes(cordinate)))
+
+            if (!calculatedPolars.length || !foundInCalculatedPolars) {
+                return polar
+            }
+        }
     }
 
     static calculate(iterations = 10, radius = 1) {
-        let i, inside = 0
+        let i, polars = [], inside = 0
         for (i = 1; i <= iterations; i++) {
-            const [x, y] = this.generatePolar([])
-            // console.log(`Processo em ${(i / iterations * 100).toFixed(2)}%`)
+            const [x, y] = this.generatePolar(polars)//polars)
             if (this.pitagoras(x, y) <= radius) {
                 inside++
             }
+            polars.push([x, y])
         }
 
         return 4 * inside / iterations
     }
 }
 
-const pi = CalculatePI.calculate(999999)
+const pi = CalculatePI.calculate(99999990)
 console.log('Valor de PI:', pi)
