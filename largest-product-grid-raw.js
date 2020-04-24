@@ -151,40 +151,30 @@ class MatrixLargestProductUtil {
 
 
     static largestProduct(matrix, length) {
-        const fixedLength = length - 1
-        return matrix.reduce((p, line, i) => {
-            const innerMaxProduct = line.reduce((iP, element, j) => {
-                const arrowElements = [
-                    this.upElementsFromPosition(matrix, fixedLength, { x: i, y: j }),
-                    this.downElementsFromPosition(matrix, fixedLength, { x: i, y: j }),
-                    this.diagonalUpRightElementsFromPosition(matrix, fixedLength, { x: i, y: j }),
-                    this.diagonalUpLeftElementsFromPosition(matrix, fixedLength, { x: i, y: j }),
-                    this.diagonalDownRightElementsFromPosition(matrix, fixedLength, { x: i, y: j }),
-                    this.diagonalDownLeftElementsFromPosition(matrix, fixedLength, { x: i, y: j })
-                ]
-
-                const arrowProducts = arrowElements
-                    .map(arrowDirection => ({
-                        product: this.productFromArray(arrowDirection),
-                        elements: arrowDirection
-                    }))
-
-                const innerMaxProduct = arrowProducts
-                    .reduce((p, line) => {
-                        return !p || line.product > p.product ? line : p
-                    }, undefined)
-
-                return !iP || innerMaxProduct.product > iP.product ? innerMaxProduct : iP
-            }, undefined)
-
-            return !p || innerMaxProduct.product > p.product ? innerMaxProduct : p
-        }, undefined)
+        let fxL = length - 1, max;
+        for (let i = 0; i < matrix.length; i++) {
+            let ln = matrix[i]
+            for (let j = 0; j < ln.length; j++) {
+                let mP = Math.max(
+                    this.productFromArray(this.upElementsFromPosition(matrix, fxL, { x: i, y: j })),
+                    this.productFromArray(this.downElementsFromPosition(matrix, fxL, { x: i, y: j })),
+                    this.productFromArray(this.diagonalUpRightElementsFromPosition(matrix, fxL, { x: i, y: j })),
+                    this.productFromArray(this.diagonalUpLeftElementsFromPosition(matrix, fxL, { x: i, y: j })),
+                    this.productFromArray(this.diagonalDownRightElementsFromPosition(matrix, fxL, { x: i, y: j })),
+                    this.productFromArray(this.diagonalDownLeftElementsFromPosition(matrix, fxL, { x: i, y: j }))
+                )
+                max = !max || mP > max ? mP : max
+            }
+        }
+        return max
     }
 }
 
 const GenerateMatrixUtil = require('./generate-matrix')
 // const mtx = GenerateMatrixUtil.generate({ min: 0, max: 100, width: 1000, height: 1000 })
 const mtx = require('./largest-product-matrix.json')
-const largestProduct = MatrixLargestProductUtil.largestProduct(mtx, 100)
-console.log(largestProduct)
+d = new Date()
+const largestProduct = MatrixLargestProductUtil.largestProduct(mtx, 4)
+r = new Date() - d
+console.log(largestProduct, r)
 
