@@ -39,16 +39,18 @@ class CalculatePI {
     }
 
     static calculate(iterations = 10, radius = 1) {
-        let inside = 0
-        for (let i = 1; i <= iterations; i++) {
+        let i, inside = 0
+        for (i = 1; i <= iterations; i++) {
             const [x, y] = this.generatePolar([])
+            // console.log(`Processo em ${(i / iterations * 100).toFixed(2)}%`)
             if (this.pitagoras(x, y) <= radius) {
                 inside++
             }
         }
+
         return 4 * inside / iterations
     }
 }
 
-const pi = CalculatePI.calculate(5000000)
+const pi = CalculatePI.calculate(999999)
 console.log('Valor de PI:', pi)
