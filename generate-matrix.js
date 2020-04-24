@@ -15,5 +15,4 @@ class GenerateMatrixUtil {
     }
 }
 
-const mtx = GenerateMatrixUtil.generate({ max: 100, width: 100, height: 100 })
-console.log(mtx)
+module.exports = GenerateMatrixUtil
