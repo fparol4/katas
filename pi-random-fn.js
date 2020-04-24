@@ -25,14 +25,19 @@
  * 4 * iterations / pntsDRaio = pi
  */
 
-
 class CalculatePI {
 
     static pitagoras(x, y) {
         return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2))
     }
 
-    static generatePolar(calculatedPolars) {
+    static generatePolar() {
+        const random = () => Number(Math.random().toFixed(2))
+        const polar = [random(), random()]
+        return polar
+    }
+
+    static generatePolarNoRepeat(calculatedPolars) {
         const random = () => Number(Math.random().toFixed(2))
         while (true) {
             const polar = [random(), random()]
@@ -47,6 +52,18 @@ class CalculatePI {
     }
 
     static calculate(iterations = 10, radius = 1) {
+        let i, inside = 0
+        for (i = 1; i <= iterations; i++) {
+            const [x, y] = this.generatePolar([])
+            if (this.pitagoras(x, y) <= radius) {
+                inside++
+            }
+        }
+
+        return 4 * inside / iterations
+    }
+
+    static calculateNoRepeat(iterations = 10, radius = 1) {
         let i, polars = [], inside = 0
         for (i = 1; i <= iterations; i++) {
             const [x, y] = this.generatePolar(polars)//polars)
